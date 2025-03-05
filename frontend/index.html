@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krish TV Chat Overlay</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Add Animate.css for additional animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <div class="channel-header animate__animated animate__fadeIn">
+        <div class="channel-info">
+            <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/2b1fa336-f9b3-42cf-8ec4-59b66d105551-profile_image-70x70.png" alt="Krish TV" class="channel-avatar">
+            <h1>Krish TV</h1>
+        </div>
+    </div>
+    <div class="chat-container">
+        <div id="chat" class="chat-messages"></div>
+        <div class="chat-controls">
+            <div class="theme-selector">
+                <button class="theme-btn" data-theme="dark">Dark</button>
+                <button class="theme-btn" data-theme="light">Light</button>
+            </div>
+            <div class="settings-toggle">
+                <i class="fas fa-cog"></i>
+            </div>
+        </div>
+    </div>
+    <div class="settings-panel" style="display: none;">
+        <h3>Chat Settings</h3>
+        <div class="setting-group">
+            <label>Message Duration (seconds):</label>
+            <input type="number" id="messageDuration" value="10" min="5" max="30">
+        </div>
+        <div class="setting-group">
+            <label>Max Messages:</label>
+            <input type="number" id="maxMessages" value="5" min="1" max="10">
+        </div>
+        <div class="setting-group">
+            <label>Show Badges:</label>
+            <input type="checkbox" id="showBadges" checked>
+        </div>
+        <div class="setting-group">
+            <label>Show Emotes:</label>
+            <input type="checkbox" id="showEmotes" checked>
+        </div>
+        <div class="setting-group">
+            <label>Message Animation:</label>
+            <select id="messageAnimation">
+                <option value="slide">Slide In</option>
+                <option value="bounce">Bounce In</option>
+                <option value="fade">Fade In</option>
+            </select>
+        </div>
+        <button class="close-settings">Close</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
