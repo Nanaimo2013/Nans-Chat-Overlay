@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Overlay Test Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        button {
+            background: #9147ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #772ce8;
+        }
+        .preview {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f8f8;
+            border-radius: 4px;
+        }
+        .preset-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .preset-btn {
+            background: #772ce8;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .preset-btn:hover {
+            background: #5c16c5;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-panel">
+        <h2>Chat Overlay Test Panel</h2>
+        <div class="preset-buttons">
+            <button class="preset-btn" onclick="loadPreset('subscriber')">Subscriber Message</button>
+            <button class="preset-btn" onclick="loadPreset('moderator')">Moderator Message</button>
+            <button class="preset-btn" onclick="loadPreset('emote')">Message with Emote</button>
+        </div>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" value="TestUser">
+        </div>
+        <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" rows="3">Hello everyone! 👋</textarea>
+        </div>
+        <div class="form-group">
+            <label for="badges">Badges (comma-separated):</label>
+            <input type="text" id="badges" value="subscriber/1,moderator/1">
+        </div>
+        <div class="form-group">
+            <label for="emotes">Emotes (format: emote_id:start-end):</label>
+            <input type="text" id="emotes" value="123:0-5">
+        </div>
+        <button onclick="sendTestMessage()">Send Test Message</button>
+        <div class="preview">
+            <h3>Preview Window</h3>
+            <iframe id="previewFrame" src="index.html" style="width: 400px; height: 600px; border: 1px solid #ddd;"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const presets = {
+            subscriber: {
+                username: 'Subscriber123',
+                message: 'Thanks for the stream!',
+                badges: 'subscriber/1',
+                emotes: ''
+            },
+            moderator: {
+                username: 'Moderator456',
+                message: 'Welcome to the chat!',
+                badges: 'moderator/1,subscriber/1',
+                emotes: ''
+            },
+            emote: {
+                username: 'EmoteUser789',
+                message: 'PogChamp This stream is amazing!',
+                badges: 'subscriber/1',
+                emotes: '25:0-7'
+            }
+        };
+
+        function loadPreset(presetName) {
+            const preset = presets[presetName];
+            document.getElementById('username').value = preset.username;
+            document.getElementById('message').value = preset.message;
+            document.getElementById('badges').value = preset.badges;
+            document.getElementById('emotes').value = preset.emotes;
+        }
+
+        function sendTestMessage() {
+            const username = document.getElementById('username').value;
+            const message = document.getElementById('message').value;
+            const badges = document.getElementById('badges').value;
+            const emotes = document.getElementById('emotes').value;
+
+            const testMessage = {
+                username: username,
+                message: message,
+                badges: badges,
+                emotes: emotes
+            };
+
+            // Send message to the iframe
+            const iframe = document.getElementById('previewFrame');
+            iframe.contentWindow.postMessage(testMessage, '*');
+        }
+    </script>
+</body>
+</html> 

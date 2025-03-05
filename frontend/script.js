@@ -6,8 +6,31 @@ const config = {
     showEmotes: true,
     theme: 'dark',
     animation: 'slide',
-    channel: 'krish_tv'
+    channel: 'krish_tv',
+    oauthToken: 'er6c1tvqbdxwzgbfavjs7okak5wuok',
+    isTestMode: true // Enable test mode by default
 };
+
+// Handle test messages
+window.addEventListener('message', function(event) {
+    if (config.isTestMode) {
+        const testMessage = event.data;
+        const messageElement = createMessageElement(
+            testMessage.username,
+            testMessage.message,
+            testMessage.badges.split(',').filter(b => b).map(badge => {
+                const [name, version] = badge.split('/');
+                return { name, version };
+            }),
+            testMessage.emotes.split(',').filter(e => e).map(emote => {
+                const [id, positions] = emote.split(':');
+                const [start, end] = positions.split('-');
+                return { id, start, end };
+            })
+        );
+        addMessage(messageElement);
+    }
+});
 
 // DOM Elements
 const chatContainer = document.getElementById('chat');
@@ -29,16 +52,13 @@ let reconnectAttempts = 0;
 const maxReconnectAttempts = 5;
 
 function connectToTwitch() {
-    const channel = new URLSearchParams(window.location.search).get('channel') || config.channel;
-    const token = new URLSearchParams(window.location.search).get('token') || 'your_new_twitch_oauth_token';
-    
     ws = new WebSocket('wss://irc-ws.chat.twitch.tv:443');
     
     ws.onopen = () => {
         console.log('Connected to Twitch');
-        ws.send('PASS ' + token);
+        ws.send(`PASS oauth:${config.oauthToken}`);
         ws.send('NICK Nanaimo_2013');
-        ws.send('JOIN #' + channel);
+        ws.send(`JOIN #${config.channel}`);
         reconnectAttempts = 0;
         
         // Add connection success animation
